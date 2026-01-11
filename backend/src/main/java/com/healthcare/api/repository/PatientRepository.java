@@ -1,0 +1,15 @@
+package com.healthcare.api.repository;
+
+import com.healthcare.api.model.Patient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface PatientRepository extends JpaRepository<Patient, Long> {
+    List<Patient> findByDoctorIdOrderByCreatedAtDesc(Long doctorId);
+    
+    @Query("SELECT p FROM Patient p WHERE p.doctorId = ?1 AND p.riskLevel = ?2")
+    List<Patient> findByDoctorIdAndRiskLevel(Long doctorId, String riskLevel);
+}
